@@ -8,6 +8,9 @@
             <PubHistoryCapacity>16</PubHistoryCapacity>
             <LogLevel>info</LogLevel>
         </SharedMemory>
+        <General>
+            <EnableMulticastLoopback>true</EnableMulticastLoopback>
+        </General>
     </Domain>
 </CycloneDDS>
 

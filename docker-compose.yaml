@@ -1,12 +1,12 @@
 version: "3.2"
 
 services:
-  roudi-router: 
+  roudi-router:
     container_name: roudi-router
     image: ros:galactic
     command: iox-roudi
     ipc: host
-    network_mode: host
+    network_mode: none
     init: true
     tty: true
     volumes:
@@ -16,9 +16,9 @@ services:
       # - type: bind 
       #   source: /dev 
       #   target: /dev
-      # - type: bind 
-      #   source: /tmp 
-      #   target: /tmp
+      - type: bind
+        source: /tmp
+        target: /tmp
     depends_on:
       - ros2-talker
       - ros2-listener
@@ -34,12 +34,12 @@ services:
       # - type: bind 
       #   source: /dev 
       #   target: /dev 
-      # - type: bind 
-      #   source: /tmp 
-      #   target: /tmp
+      - type: bind
+        source: /tmp
+        target: /tmp
     env_file: ros.env
     ipc: host
-    network_mode: host
+    network_mode: none
     init: true
     tty: true
   ros2-listener:
@@ -56,10 +56,10 @@ services:
       # - type: bind 
       #   source: /dev 
       #   target: /dev 
-      # - type: bind 
-      #   source: /tmp 
-      #   target: /tmp 
+      - type: bind
+        source: /tmp
+        target: /tmp
     env_file: ros.env
-    network_mode: host
+    network_mode: none
     init: true
     tty: true
