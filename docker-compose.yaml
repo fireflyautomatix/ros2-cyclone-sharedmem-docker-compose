@@ -1,51 +1,28 @@
 version: "3.2"
 
 services:
-  roudi-router:
-    container_name: roudi-router
-    image: ros:galactic
-    command: iox-roudi
-    ipc: host
-    pid: host
-    network_mode: none
-    init: true
-    tty: true
-    volumes:
-      - type: bind
-        source: ./cyclonedds.xml
-        target: /opt/cyclonedds.xml
-      # - type: bind 
-      #   source: /dev 
-      #   target: /dev
-      - type: bind
-        source: /tmp
-        target: /tmp
-    depends_on:
-      - ros2-talker
-      - ros2-listener
-    env_file: ros.env
   ros2-talker:
-    image: ros:galactic
+    image: ros:foxy
     command: >-
       ros2 topic pub /chatter std_msgs/msg/Int32 '{data: 1}' -r 1
     volumes:
       - type: bind
-        source: ./cyclonedds.xml
-        target: /opt/cyclonedds.xml
-      # - type: bind 
-      #   source: /dev 
-      #   target: /dev 
+        source: ./fastrtps.xml
+        target: /opt/fastrtps.xml
+      - type: bind 
+        source: /dev 
+        target: /dev 
       - type: bind
         source: /tmp
         target: /tmp
     env_file: ros.env
     ipc: host
-    network_mode: none
+    network_mode: host
     init: true
     pid: host
     tty: true
   ros2-listener:
-    image: ros:galactic
+    image: ros:foxy
     command: >-
       ros2 topic echo /chatter std_msgs/msg/Int32
     depends_on:
@@ -54,15 +31,15 @@ services:
     pid: host
     volumes:
       - type: bind
-        source: ./cyclonedds.xml
-        target: /opt/cyclonedds.xml
-      # - type: bind 
-      #   source: /dev 
-      #   target: /dev 
+        source: ./fastrtps.xml
+        target: /opt/fastrtps.xml
+      - type: bind 
+        source: /dev 
+        target: /dev 
       - type: bind
         source: /tmp
         target: /tmp
     env_file: ros.env
-    network_mode: none
+    network_mode: host
     init: true
     tty: true
