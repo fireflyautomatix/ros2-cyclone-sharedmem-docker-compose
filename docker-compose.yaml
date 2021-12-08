@@ -6,6 +6,7 @@ services:
     image: ros:galactic
     command: iox-roudi
     ipc: host
+    pid: host
     network_mode: none
     init: true
     tty: true
@@ -41,6 +42,7 @@ services:
     ipc: host
     network_mode: none
     init: true
+    pid: host
     tty: true
   ros2-listener:
     image: ros:galactic
@@ -49,6 +51,7 @@ services:
     depends_on:
       - ros2-talker
     ipc: host
+    pid: host
     volumes:
       - type: bind
         source: ./cyclonedds.xml
