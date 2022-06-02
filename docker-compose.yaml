@@ -12,7 +12,6 @@ services:
     build: ./
     command: ros2 run demo_nodes_cpp listener
     ipc: host
-    # network_mode: host
     environment:
       RMW_IMPLEMENTATION: rmw_connextdds
       NDDS_QOS_PROFILES: /shared-mem-qos.xml
