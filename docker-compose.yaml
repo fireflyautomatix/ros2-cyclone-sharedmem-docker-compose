@@ -1,65 +1,20 @@
-version: "3.2"
-
 services:
-  roudi-router:
-    container_name: roudi-router
-    image: ros:galactic
-    command: iox-roudi
-    ipc: host
-    network_mode: none
-    init: true
-    tty: true
-    volumes:
-      - type: bind
-        source: ./cyclonedds.xml
-        target: /opt/cyclonedds.xml
-      # - type: bind 
-      #   source: /dev 
-      #   target: /dev
-      - type: bind
-        source: /tmp
-        target: /tmp
-    depends_on:
-      - ros2-talker
-      - ros2-listener
-    env_file: ros.env
   ros2-talker:
-    image: ros:galactic
-    command: >-
-      ros2 topic pub /chatter std_msgs/msg/Int32 '{data: 1}' -r 1
-    volumes:
-      - type: bind
-        source: ./cyclonedds.xml
-        target: /opt/cyclonedds.xml
-      # - type: bind 
-      #   source: /dev 
-      #   target: /dev 
-      - type: bind
-        source: /tmp
-        target: /tmp
-    env_file: ros.env
+    build: ./
+    command: ros2 run demo_nodes_cpp talker
     ipc: host
-    network_mode: none
-    init: true
-    tty: true
+    environment:
+      RMW_IMPLEMENTATION: rmw_connextdds
+      NDDS_QOS_PROFILES: /shared-mem-qos.xml
+    volumes:
+      - ./shared-mem-qos.xml:/shared-mem-qos.xml
   ros2-listener:
-    image: ros:galactic
-    command: >-
-      ros2 topic echo /chatter std_msgs/msg/Int32
-    depends_on:
-      - ros2-talker
+    build: ./
+    command: ros2 run demo_nodes_cpp listener
     ipc: host
+    # network_mode: host
+    environment:
+      RMW_IMPLEMENTATION: rmw_connextdds
+      NDDS_QOS_PROFILES: /shared-mem-qos.xml
     volumes:
-      - type: bind
-        source: ./cyclonedds.xml
-        target: /opt/cyclonedds.xml
-      # - type: bind 
-      #   source: /dev 
-      #   target: /dev 
-      - type: bind
-        source: /tmp
-        target: /tmp
-    env_file: ros.env
-    network_mode: none
-    init: true
-    tty: true
+      - ./shared-mem-qos.xml:/shared-mem-qos.xml
