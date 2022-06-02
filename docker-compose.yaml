@@ -3,17 +3,20 @@ services:
     build: ./
     command: ros2 run demo_nodes_cpp talker
     ipc: host
-    environment:
-      RMW_IMPLEMENTATION: rmw_connextdds
-      NDDS_QOS_PROFILES: /shared-mem-qos.xml
-    volumes:
-      - ./shared-mem-qos.xml:/shared-mem-qos.xml
+    network_mode: host
+    # environment:
+      # https://fast-dds.docs.eprosima.com/en/latest/fastdds/ros2/ros2_configure.html
+      # FASTRTPS_DEFAULT_PROFILES_FILE: ./fastdds-qos.xml
+      # RMW_FASTRTPS_USE_QOS_FROM_XML: 1
+    # volumes:
+    #   - ./fastdds-qos.xml:/fastdds-qos.xml
   ros2-listener:
     build: ./
     command: ros2 run demo_nodes_cpp listener
     ipc: host
-    environment:
-      RMW_IMPLEMENTATION: rmw_connextdds
-      NDDS_QOS_PROFILES: /shared-mem-qos.xml
-    volumes:
-      - ./shared-mem-qos.xml:/shared-mem-qos.xml
+    network_mode: host
+    # environment:
+      # FASTRTPS_DEFAULT_PROFILES_FILE: ./fastdds-qos.xml
+      # RMW_FASTRTPS_USE_QOS_FROM_XML: 1
+    # volumes:
+    #   - ./fastdds-qos.xml:/fastdds-qos.xml
